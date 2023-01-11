@@ -1,6 +1,6 @@
-# Cloudyff - ffmpeg wrapper
+# FFBox - ffmpeg wrapper
 
-> **Note**: `cloudyff` in deep development
+> **Note**: `ffbox` in deep development
 
 # How to setup?
 
