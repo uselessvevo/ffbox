@@ -2,43 +2,64 @@
 
 > **Note**: `cloudyff` in deep development
 
-Basic example - read file and close it
+Basic example - read file and get info
 
 ```py
 stream = Stream()
 stream.input("audio.mp3")
 probe_result = stream.probe(output_format=OutoutFormats.JSON)
-stream.close()
 ```
 
-As context manager
+Exclude/include file formats
 
 ```py
-with Stream(async_run=True) as stream:
-    stream.input("audio.mp3")
-    probe_result = stream.probe(output_format=OutputFormats.JSON)
+stream = Stream()
+
+# Pass list of file formats to exclude them
+stream.exclude_formats("avi", "flv")
+
+# Or include/allow only
+
+stream.allow_formats("avi", "flv")
+
+```
+
+Load files from directory by pattern
+
+```py
+stream = Stream()
+
+# Load mp3 files only
+stream.input(pattern="*.mp3", directory="My Music")
+
+# Or use `patterns`
+
+stream.input(patterns=("*.mp3", "*.avi"), directory="My Music")
+
+# Load everything, but it will take more time
+
+stream.input(pattern="*.*", directory="My Music")
+```
+
+Change file metadata
+
+```py
+stream = Stream()
+stream.input("input.mp3")
+stream.set_metadata("input.mp3", metadata={...})
+
+# By default, filenanme will not be changed - input.mp3
+stream.output("output [new metadata].mp3")
+stream.run()
 ```
 
 Concat two files
 
 ```py
-# Setup `Stream` instance with the next arguments:
-# * async_run - run is separate processes
-# * temp - copy files into temporary directory to prevent file corruption and loses
-# * validate - use validators
-#   if `validate` is True then it will validate all input files by ffprobe and filters
-stream = Stream(async_run=True, temp=True, validate=True)
+stream = Stream()
 
 # Load video file
-stream.input("silent video.mp4")
-
-# Will move this after new input
-stream.filter(fps_method, fps=60)
-
-# Also you can pass raw string as ffmpeg filter. Thanks to python-ffmpeg repo it's cool
-stream.filter("fps", fps=60)
-
-stream.output("almost smooth video.mp4")
+stream.input("silent movie.mp4")
 
 # Set video resolution
 stream.filter(set_resolution, w=640, h=480)
@@ -59,9 +80,33 @@ stream.concat("video.mp4")
 
 # If `output` was not called than 
 # uuid4 will be added to the file's name
-stream.output("video with the sound.mp4")
+stream.output("noisy movie.mp4")
 
 # Run ffmpeg
+stream.run()
+```
+
+Additional parameters
+
+```py
+# Setup `Stream` instance with the next arguments:
+# * async_run - run is separate processes
+# * temp - copy files into temporary directory to prevent file corruption and loses
+# * validate - use validators
+#   if `validate` is True then it will validate all input files by ffprobe and filters
+stream = Stream(async_run=True, temp=True, validate=True)
+
+# Load video
+stream.input("input.mp4")
+
+# Will move this after new input
+stream.filter(fps_method, fps=60)
+
+# Also you can pass raw string as ffmpeg filter. Thanks to python-ffmpeg repo it's cool
+stream.filter("fps", fps=60)
+
+stream.output("smooth video.mp4")
+
 stream.run()
 ```
 
@@ -69,7 +114,9 @@ Convert from one to another file format
 
 ```py
 # You can provide your own convert string
-stream = Stream(async_run=True)
+stream = Stream()
+
+# Load video
 stream.input("video.mp4")
 
 # Will raise exception if validation will fail
