@@ -5,9 +5,17 @@
 Basic example - read file and get info
 
 ```py
+# Create `Stream` instance
 stream = Stream()
+
+# Load audio file
 stream.input("audio.mp3")
+
+# Get file info
 probe_result = stream.probe(output_format=OutputFormats.JSON)
+
+# Print it
+pprint.pprint(probe_result)
 ```
 
 Exclude/include file formats
@@ -113,15 +121,15 @@ stream.run()
 Convert from one to another file format
 
 ```py
-# You can provide your own convert string
 stream = Stream()
 
 # Load video
 stream.input("video.mp4")
 
 # Will raise exception if validation will fail
+# Will use libmp3lame
 # For example, it could be `ConverterNotFound` or `UnkownRateError/NotApplicableRateError`
-stream.convert("mp3", rate="128kb/s", raise_exception=True/False)
+stream.convert("mp3", bitrate="128k", raise_exception=True/False)
 
 # Or just use `quality` argument
 # Will raise `UknownQualityError` if it was passed as a raw data type
@@ -143,7 +151,13 @@ Raw/uncontrolled run
 
 ```py
 stream = Stream()
+
+# Load video file
 stream.input("video.mp4")
+
+# Use `raw` method to pass your ffmpeg query string
 stream.raw("...", raise_exception=True/False)
+
+# Run ffmpeg
 stream.run()
 ```
