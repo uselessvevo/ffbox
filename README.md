@@ -138,7 +138,9 @@ stream.input("input.mp4")
 stream.filter(fps_method, fps=60)
 
 # Also you can pass raw string as ffmpeg filter. Thanks to python-ffmpeg repo it's cool
-stream.filter("fps", fps=60)
+# In this example this filter uses `OUTPUT` scope
+# Use: -filter:v output.ff
+stream.filter("fps", scope=FilterScope.[INPUT, INNER, OUTPUT], fps=60)
 
 # Set output filename
 stream.output("smooth video.mp4")
