@@ -183,8 +183,8 @@ Validation
 ```py
 stream = Stream(
 	validators=[
-    FormatValidator(allow=["mp3", "avi"]),
-    BitrateValidator(min_bitrate="128k", max_bitrate="320k"),
+		FormatValidator(allow=["mp3", "avi"]),
+		BitrateValidator(min_bitrate="128k", max_bitrate="320k"),
 	]
 )
 
