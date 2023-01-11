@@ -48,13 +48,35 @@ class Stream:
         # Output file
         self._output_nodes: dict = None
 
+    def probe(self, filename: str, *args, **kwargs) -> None:
+        """
+        Use ffprobe to get file info
+        """
+
+    def exclude_formats(self, *formats: tuple[str]) -> None:
+        """
+        Exclude these file formats for all nodes
+
+        Args:
+            formats (tuple[str]): array of file formats
+        """
+
+    def allow_formats(self, *formats: tuple[str]) -> None:
+        """
+        Allow these file formats for all nodes
+
+        Args:
+            formats (tuple[str]): array of file formats
+        """
+
     def input(
         self,
         filename: str,
         name: str = None,
         file_format: str = None,
         guess_format: str = None,
-        validators: list[IValidator] = None
+        validators: list[IValidator] = None,
+        **options,
     ) -> None:
         """
         Load input file
@@ -65,12 +87,14 @@ class Stream:
             file_format (str): manually specify file format to skip `guess_format`
             guess_format (bool): will invoke `guess_format` method
             validators (str): list of validators for this operation only
+            options (dict): options for `Node` based class
         """
 
     def output(
         self,
         filename: str,
-        validators: list[IValidator] = None
+        validators: list[IValidator] = None,
+        **options
     ) -> None:
         """
         Set output file name
@@ -78,6 +102,7 @@ class Stream:
         Args:
             filename (str): output filename or path
             validators (str): list of validators for this operation only
+            options (dict): options for `Node` based class
         """
 
     def filter(
@@ -85,7 +110,7 @@ class Stream:
         file_filter: Union[str, callable, IFilter],
         filename: str,
         validators: list[IValidator] = None,
-        *args, **kwargs
+        **options
     ) -> None:
         """
         Build filter query for specified file by string, method or `IFilter` based class
@@ -94,13 +119,15 @@ class Stream:
             file_filter (str, callable, IFilter): filter query builder
             filename (str): file name or path
             validators (list[IValidator, ...]): list of validators
+            options (dict): options for `Node` based class
         """
 
     def convert(
         self,
         converter: Union[str, callable],
         filename: str,
-        validators: list[IValidator] = None
+        validators: list[IValidator] = None,
+        **options
     ) -> None:
         """
         Build converter query for specified file by string, method or `IFilter` based class
@@ -109,6 +136,7 @@ class Stream:
             converter (str, callable, IFilter): filter query builder
             filename (str): file name or path
             validators (list[IValidator, ...]): list of validators
+            options (dict): options for `Node` based class
         """
 
     def concat(
