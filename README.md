@@ -113,9 +113,8 @@ Additional parameters
 # Setup `Stream` instance with the next arguments:
 # * async_run - run is separate processes
 # * temp - copy files into temporary directory to prevent file corruption and loses
-# * validate - use validators
-#   if `validate` is True then it will validate all input files by ffprobe and filters
-stream = Stream(async_run=True, temp=True, validate=True)
+# * validators - list of validators; will be applied for each file and filters
+stream = Stream(async_run=True, temp=True, validators=[...])
 
 # Load video
 stream.input("input.mp4")
@@ -174,6 +173,51 @@ stream.raw("...", raise_exception=True/False)
 
 # Set output filename
 stream.output("new video.mp4")
+
+# Run ffmpeg
+stream.run()
+```
+
+Validation
+
+```py
+stream = Stream(
+	validators=[
+    FormatValidator(allow=["mp3", "avi"]),
+    BitrateValidator(min_bitrate="128k", max_bitrate="320k"),
+	]
+)
+
+# Load audio file
+stream.input("audio.mp3")
+
+...
+
+# Run ffmpeg
+stream.run()
+```
+
+Add validators manually
+
+```py
+stream = Stream()
+
+# Add validators
+stream.add_validators(
+  FormatValidator(allow=["mp3", "avi"]),
+  BitrateValidator(min_bitrate="128k", max_bitrate="320k"),
+)
+```
+
+Validate per input/filter
+
+```py
+stream = Stream()
+
+# Load audio file
+stream.input("audio.mp3", validators=[BitrateValidator(min_bitrate="128k", max_bitrate="320k")])
+
+...
 
 # Run ffmpeg
 stream.run()
