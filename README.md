@@ -47,17 +47,31 @@ stream.input(patterns=("*.mp3", "*.avi"), directory="My Music")
 # Load everything, but it will take more time
 
 stream.input(pattern="*.*", directory="My Music")
+
+# All next operations will be applied for each file
+
+stream.filter("filter_method", ...)
+
+# Run ffmpeg
+stream.run()
 ```
 
 Change file metadata
 
 ```py
 stream = Stream()
+
+# Load audio file
 stream.input("input.mp3")
+
+# Set file's metadata
 stream.set_metadata("input.mp3", metadata={...})
 
-# By default, filenanme will not be changed - input.mp3
-stream.output("output [new metadata].mp3")
+# If `overwrite` is `True` output file will be overwritten
+# Unless, you need to set new filename
+stream.output("output.mp3", overwrite=True/False)
+
+# Run ffmpeg
 stream.run()
 ```
 
@@ -86,8 +100,7 @@ stream.input("audio.mp3", name="myaudio", file_format="mp3")
 # Use: ffprobe -show_streams -print_format json input.mov
 stream.concat("video.mp4")
 
-# If `output` was not called than 
-# uuid4 will be added to the file's name
+# Set output filename
 stream.output("noisy movie.mp4")
 
 # Run ffmpeg
@@ -113,8 +126,10 @@ stream.filter(fps_method, fps=60)
 # Also you can pass raw string as ffmpeg filter. Thanks to python-ffmpeg repo it's cool
 stream.filter("fps", fps=60)
 
+# Set output filename
 stream.output("smooth video.mp4")
 
+# Run ffmpeg
 stream.run()
 ```
 
@@ -139,8 +154,7 @@ stream.convert("mp3", quality=Quality.HIGH, raise_exception=True/False)
 # Will ignore other arguments except `raise_exception`
 stream.convert(raw="...", raise_exception=True/False)
 
-# Optional method call
-# method `convert` will name this file "video.mp3"
+# Set output filename
 stream.output("output audio.mp3")
 
 # Run ffmpeg
@@ -157,6 +171,9 @@ stream.input("video.mp4")
 
 # Use `raw` method to pass your ffmpeg query string
 stream.raw("...", raise_exception=True/False)
+
+# Set output filename
+stream.output("new video.mp4")
 
 # Run ffmpeg
 stream.run()
