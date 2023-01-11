@@ -5,9 +5,9 @@
 # How to setup?
 
 To setup ffmpeg, ffprobe and ffplay path you can to set environment variables:
-* CLOUDY_FFMPEG_PATH - ffmpeg relative path
-* CLOUDY_FFPROBE_PATH - ffprobe relative path
-* CLOUDY_FFPLAY_PATH - ffplay relative path
+* FFMPEG_PATH - ffmpeg relative path
+* FFPROBE_PATH - ffprobe relative path
+* FFPLAY_PATH - ffplay relative path
 
 Alternatively you can pass `ffmpeg_path`, `ffprobe_path`, `ffplay_path` arguments into `Stream` class
 
