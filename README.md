@@ -7,7 +7,7 @@ Basic example - read file and get info
 ```py
 stream = Stream()
 stream.input("audio.mp3")
-probe_result = stream.probe(output_format=OutoutFormats.JSON)
+probe_result = stream.probe(output_format=OutputFormats.JSON)
 ```
 
 Exclude/include file formats
