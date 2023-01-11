@@ -2,12 +2,20 @@
 
 > **Note**: `cloudyff` in deep development
 
+# How to setup?
+
 To setup ffmpeg, ffprobe and ffplay path you can to set environment variables:
 * CLOUDY_FFMPEG_PATH - ffmpeg relative path
 * CLOUDY_FFPROBE_PATH - ffprobe relative path
 * CLOUDY_FFPLAY_PATH - ffplay relative path
 
 Alternatively you can pass `ffmpeg_path`, `ffprobe_path`, `ffplay_path` arguments into `Stream` class
+
+# Query format
+
+`ffmpeg -i <input file> {global input filters} -filter_complex={complex/mapped filter} {global output filter} <output file>`
+
+# Examples
 
 Basic example - read file and get info
 
