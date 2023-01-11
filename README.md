@@ -90,13 +90,13 @@ stream.output("output.mp3", overwrite=True/False)
 stream.run()
 ```
 
-Concat two files
+Concat audio with video
 
 ```py
 stream = Stream()
 
 # Load video file
-stream.input("silent movie.mp4")
+stream.input("video.mp4")
 
 # Set video resolution
 stream.filter(set_resolution, w=640, h=480)
@@ -113,13 +113,37 @@ stream.input("audio.mp3", name="myaudio", file_format="mp3")
 # Will use concat filter
 # Will use validator to check if it can be concatinated
 # Use: ffprobe -show_streams -print_format json input.mov
-stream.concat("video.mp4")
+stream.concat(["video.mp4", "myaudio"])
 
 # Set output filename
 stream.output("noisy movie.mp4")
 
 # Run ffmpeg
 stream.run()
+```
+
+Concat two streams
+
+```py
+stream_video = Stream()
+
+# Load video file
+stream_video.input("video.mp4", name="video")
+
+# Load audio file
+stream_audio = Stream()
+
+# Load audio file
+stream_audio.input("audio.mp3")
+
+stream = Stream()
+
+# Concat two streams
+# Will use `filter_complex` query
+stream.concat([stream_video, stream_audio])
+
+# Run ffmpeg
+stream.raw()
 ```
 
 Additional parameters
