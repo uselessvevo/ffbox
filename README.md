@@ -134,9 +134,11 @@ stream_video.input("video.mp4", name="video")
 stream_audio = Stream()
 
 # Load audio file
-stream_audio.input("audio.mp3")
+stream_audio.input("audio.mp3", name="audio")
 
 stream = Stream()
+
+# Should we add `stream.add_streams(stream_a, stream_b)`?
 
 # Concat two streams
 # Will use `filter_complex` query
