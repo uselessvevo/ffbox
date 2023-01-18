@@ -173,4 +173,4 @@ class Stream:
         """
         Run ffmpeg in standard or async mode
         """
-        self._ffmpeg.run()
+        self._ffmpeg.run(run_async, **runner_options)
