@@ -38,9 +38,6 @@ class Stream:
         # ffplay instance
         self._ffplay = FFplay(ffplay_path)
 
-        # Query string
-        self._query_string: str = ""
-
         # Input file
         self._input_nodes: dict = None
 
