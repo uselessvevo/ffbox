@@ -161,6 +161,7 @@ class Stream:
         """
         Set metadata for file
         """
+        
     def add_validators(self, *validators: tuple[IValidator]) -> None:
         for validator in validators:
             if not isinstance(validator, IValidator):
