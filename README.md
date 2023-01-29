@@ -1,4 +1,4 @@
-# FFBox - ffmpeg wrapper
+# ffbox - ffmpeg wrapper
 
 > **Note**: `ffbox` in deep development
 

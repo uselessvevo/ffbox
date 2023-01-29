@@ -5,42 +5,38 @@ from typing import Union
 
 import aiomultiprocess
 
-from src.filters import IFilter
-from src.validators import IValidator
+from filters import IFilter
+from validators import IValidator
+
+from ffmpeg import FFmpeg
+from ffprobe import FFprobe
+from ffplay import FFplay
 
 
 class Stream:
 
     def __init__(
         self,
-        run_async: bool = False,
         validators: set[IValidator] = None,
         tempfolder: str = None,
         ffmpeg_path: str = os.getenv("FFMPEG_PATH"),
         ffprobe_path: str = os.getenv("FFPROBE_PATH"),
         ffplay_path: str = os.getenv("FFPLAY_PATH")
     ) -> None:
-        # Run via `aiomultiprocess`
-
-        self._run_async = run_async
-
         # List of validators
         self._validators = validators
 
         # Temporary folder
         self._tempfolder = tempfolder
 
-        # ffmpeg path
-        self._ffmpeg_path = ffmpeg_path
+        # ffmpeg instance
+        self._ffmpeg = FFmpeg(ffmpeg_path)
 
-        # ffprobe path
-        self._ffprobe_path = ffprobe_path
+        # ffprobe instance
+        self._ffprobe = FFprobe(ffprobe_path)
 
-        # ffplay path
-        self._ffplay_path = ffplay_path
-
-        # Query string
-        self._query_string: str = ""
+        # ffplay instance
+        self._ffplay = FFplay(ffplay_path)
 
         # Input file
         self._input_nodes: dict = None
@@ -171,10 +167,10 @@ class Stream:
 
     def run(
         self,
-        stdout: bool = False,
-        stderr: bool = False,
-        run_async: bool = False
+        run_async: bool = False, 
+        **runner_options
     ) -> Union[str, None]:
         """
         Run ffmpeg in standard or async mode
         """
+        self._ffmpeg.run(run_async, **runner_options)
